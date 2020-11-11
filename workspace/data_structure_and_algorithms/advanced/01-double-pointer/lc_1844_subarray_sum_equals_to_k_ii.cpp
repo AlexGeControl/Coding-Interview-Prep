@@ -21,17 +21,18 @@ public:
         
         // init prefix sum & corresponding lookup table:
         int prefix_sum = 0;
-        unordered_map<int, size_t> prefix_sum_loopup;
-        prefix_sum_loopup[0] = 0;
+        // n * O(1), so unordered_map should be used instead of map:
+        unordered_map<int, size_t> prefix_sum_2_upper_exclude;
+        prefix_sum_2_upper_exclude[0] = 0;
         
         // iterate while lookup:
         size_t min_subarray_size = N + 1;
-        for (size_t upper_exclude = 0; upper_exclude < N; ++upper_exclude) {
-            prefix_sum += nums.at(upper_exclude);
-            prefix_sum_loopup[prefix_sum] = upper_exclude + 1;
+        for (size_t upper_exclude = 1; upper_exclude <= N; ++upper_exclude) {
+            prefix_sum += nums.at(upper_exclude - 1);
+            prefix_sum_2_upper_exclude[prefix_sum] = upper_exclude;
             
-            if (prefix_sum_loopup.end() != prefix_sum_loopup.find(prefix_sum - k)) {
-                size_t subarray_size = upper_exclude + 1 - prefix_sum_loopup.find(prefix_sum - k)->second;
+            if (prefix_sum_2_upper_exclude.end() != prefix_sum_2_upper_exclude.find(prefix_sum - k)) {
+                size_t subarray_size = upper_exclude - prefix_sum_2_upper_exclude.find(prefix_sum - k)->second;
                 
                 // update subarray size:
                 if (subarray_size < min_subarray_size) {
