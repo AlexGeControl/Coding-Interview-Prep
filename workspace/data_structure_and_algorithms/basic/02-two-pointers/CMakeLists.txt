@@ -18,3 +18,7 @@ add_executable(lc_0607_two_sum_iii_data_structure_design
 add_executable(lc_0587_two_sum_unique_pairs
   lc_0587_two_sum_unique_pairs.cpp
 )
+
+add_executable(lc_0057_3sum
+  lc_0057_3sum.cpp
+)
