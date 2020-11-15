@@ -26,3 +26,11 @@ add_executable(lc_0415_is_palindrome
 add_executable(lc_0013_find_substring
   lc_0013_find_substring.cpp
 )
+
+add_executable(lc_1790_rotate_string_ii
+  lc_1790_rotate_string_ii.cpp
+)
+
+add_executable(lc_0667_longest_palindromic_subsequence
+  lc_0667_longest_palindromic_subsequence.cpp
+)
