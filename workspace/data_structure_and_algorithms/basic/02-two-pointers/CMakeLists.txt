@@ -58,3 +58,19 @@ add_executable(lc_0031_partition_array
 add_executable(lc_0148_sort_colors
   lc_0148_sort_colors.cpp
 )
+
+add_executable(lc_0461_kth_smallest_numbers_in_unsorted_array
+  lc_0461_kth_smallest_numbers_in_unsorted_array.cpp
+)
+
+add_executable(lc_0005_kth_largest_element
+  lc_0005_kth_largest_element.cpp
+)
+
+add_executable(lc_0144_interleaving_positive_and_negative_numbers
+  lc_0144_interleaving_positive_and_negative_numbers.cpp
+)
+
+add_executable(lc_0976_4sum_ii
+  lc_0976_4sum_ii.cpp
+)
