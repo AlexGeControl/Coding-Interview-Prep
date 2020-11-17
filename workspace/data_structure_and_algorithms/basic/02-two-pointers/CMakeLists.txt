@@ -74,3 +74,11 @@ add_executable(lc_0144_interleaving_positive_and_negative_numbers
 add_executable(lc_0976_4sum_ii
   lc_0976_4sum_ii.cpp
 )
+
+add_executable(lc_0148_sort_colors_no_counting
+  lc_0148_sort_colors_no_counting.cpp
+)
+
+add_executable(lc_0143_sort_colors_ii
+  lc_0143_sort_colors_ii.cpp
+)
