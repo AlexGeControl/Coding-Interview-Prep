@@ -22,3 +22,19 @@ add_executable(lc_0014_first_position_of_target
 add_executable(lc_0458_last_position_of_target
   lc_0458_last_position_of_target.cpp
 )
+
+add_executable(lc_0460_find_k_closest_elements
+  lc_0460_find_k_closest_elements.cpp
+)
+
+add_executable(lc_0075_find_peak_element
+  lc_0075_find_peak_element.cpp
+)
+
+add_executable(lc_0159_find_minimum_in_rotated_sorted_array
+  lc_0159_find_minimum_in_rotated_sorted_array.cpp
+)
+
+add_executable(lc_0183_wood_cut
+  lc_0183_wood_cut.cpp
+)
