@@ -29,19 +29,16 @@ public:
 
                 if ( non_zero_index != curr_index ) {
                     nums.at(non_zero_index) = nums.at(curr_index);
-                    nums.at(curr_index) = 0;
                 }
 
                 ++non_zero_index;
                 ++curr_index;
             }
+
+            while ( non_zero_index < N ) {
+                nums.at(non_zero_index++) = 0;
+            }
         }
-    }
-private:
-    void swap(std::vector<int> &nums, int i, int j) {
-        int value = nums.at(i);
-        nums.at(i) = nums.at(j);
-        nums.at(j) = value;
     }
 };
 

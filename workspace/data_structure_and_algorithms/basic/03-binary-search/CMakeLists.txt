@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.10.2)
+project(two_pointers)
+
+## Compile as C++11:
+SET(CMAKE_BUILD_TYPE "Release")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+add_compile_options(-std=c++11)
+add_definitions(-std=c++11)
+
+###########
+## Build ##
+###########
+
+add_executable(lc_0458_classical_binary_search 
+  lc_0458_classical_binary_search.cpp
+)
+
+add_executable(lc_0014_first_position_of_target
+  lc_0014_first_position_of_target.cpp
+)
+
+add_executable(lc_0458_last_position_of_target
+  lc_0458_last_position_of_target.cpp
+)
