@@ -38,3 +38,15 @@ add_executable(lc_0159_find_minimum_in_rotated_sorted_array
 add_executable(lc_0183_wood_cut
   lc_0183_wood_cut.cpp
 )
+
+add_executable(lc_0585_maximum_number_in_mountain_sequence
+  lc_0585_maximum_number_in_mountain_sequence.cpp
+)
+
+add_executable(lc_0447_search_in_a_big_sorted_array
+  lc_0447_search_in_a_big_sorted_array.cpp
+)
+
+add_executable(lc_0062_search_in_rotated_sorted_array
+  lc_0062_search_in_rotated_sorted_array.cpp
+)
