@@ -14,3 +14,11 @@ add_definitions(-std=c++11)
 add_executable(lc_0425_letter_combinations_of_a_phone_number 
   lc_0425_letter_combinations_of_a_phone_number.cpp
 )
+
+add_executable(lc_0010_string_permutation_ii
+  lc_0010_string_permutation_ii.cpp
+)
+
+add_executable(lc_0135_combination_sum
+  lc_0135_combination_sum.cpp
+)
