@@ -30,3 +30,31 @@ add_executable(lc_0453_flatten_binary_tree_to_linked_list
 add_executable(lc_0088_lowest_common_ancestor_of_a_binary_tree
   lc_0088_lowest_common_ancestor_of_a_binary_tree.cpp
 )
+
+add_executable(lc_0597_subtree_with_maximum_average
+  lc_0597_subtree_with_maximum_average.cpp
+)
+
+add_executable(lc_0175_invert_binary_tree__recursive
+  lc_0175_invert_binary_tree__recursive.cpp
+)
+
+add_executable(lc_0175_invert_binary_tree__bfs
+  lc_0175_invert_binary_tree__bfs.cpp
+)
+
+add_executable(lc_0085_insert_node_in_a_binary_search_tree
+  lc_0085_insert_node_in_a_binary_search_tree.cpp
+)
+
+add_executable(lc_0011_search_range_in_binary_search_tree
+  lc_0011_search_range_in_binary_search_tree.cpp
+)
+
+add_executable(lc_0087_remove_node_in_binary_search_tree
+  lc_0087_remove_node_in_binary_search_tree.cpp
+)
+
+add_executable(lc_0087_remove_node_in_binary_search_tree
+  lc_0087_remove_node_in_binary_search_tree.cpp
+)
