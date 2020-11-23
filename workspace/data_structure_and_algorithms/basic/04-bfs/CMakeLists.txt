@@ -22,3 +22,11 @@ add_executable(lc_0611_knight_shortest_path
 add_executable(lc_0127_topological_sorting
   lc_0127_topological_sorting.cpp
 )
+
+add_executable(lc_0120_word_ladder
+  lc_0120_word_ladder.cpp
+)
+
+add_executable(lc_0137_clone_graph
+  lc_0137_clone_graph.cpp
+)
