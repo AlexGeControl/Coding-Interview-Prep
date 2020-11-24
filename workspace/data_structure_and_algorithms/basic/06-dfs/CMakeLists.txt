@@ -22,3 +22,7 @@ add_executable(lc_0010_string_permutation_ii
 add_executable(lc_0135_combination_sum
   lc_0135_combination_sum.cpp
 )
+
+add_executable(lc_0090_k_sum_ii
+  lc_0090_k_sum_ii.cpp
+)
