@@ -11,7 +11,7 @@
     * [Divide and Conquer](basic/05-divide-and-conquer/README.md)
     * [Depth-First Search](basic/06-dfs/README.md)
     * [Common Data Structures](basic/07-common-data-structures/README.md)
-    * Mesmerized Search
+    * [Mesmerized Search](basic/08-mesmerized-search/README.md)
     * Dynamic Programming
 * Advanced
     * Double Pointer
