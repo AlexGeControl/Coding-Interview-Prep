@@ -26,3 +26,7 @@ add_executable(lc_0657_insert_delete_getrandom_o1
 add_executable(lc_0134_lru_cache
   lc_0134_lru_cache.cpp
 )
+
+add_executable(lc_0004_ugly_number_ii
+  lc_0004_ugly_number_ii.cpp
+)
