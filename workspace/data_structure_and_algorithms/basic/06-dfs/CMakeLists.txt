@@ -26,3 +26,15 @@ add_executable(lc_0135_combination_sum
 add_executable(lc_0090_k_sum_ii
   lc_0090_k_sum_ii.cpp
 )
+
+add_executable(lc_0018_subsets_ii
+  lc_0018_subsets_ii.cpp
+)
+
+add_executable(lc_0017_subsets
+  lc_0017_subsets.cpp
+)
+
+add_executable(lc_0015_permutations
+  lc_0015_permutations.cpp
+)
