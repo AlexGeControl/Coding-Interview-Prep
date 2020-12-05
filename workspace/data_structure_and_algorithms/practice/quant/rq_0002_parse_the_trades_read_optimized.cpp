@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include <boost/program_options.hpp>
+
 
 class Packet {
 public:
@@ -16,6 +18,8 @@ public:
     };
 
     struct PacketHeader {
+        static const size_t LENGTH = 4;
+
         uint16_t length;
         uint16_t num_market_updates;
     };
@@ -25,7 +29,7 @@ public:
 
         uint16_t length;
         char type;
-        char symbol[6];
+        char symbol[5];
     };
 
     struct Quote {
@@ -42,13 +46,66 @@ public:
         char data[10];
 
         uint32_t GetSize(void) {
-            return *reinterpret_cast<uint16_t *>(&data[0]);
+            return 100 * (*reinterpret_cast<uint16_t *>(&data[0]));
         }
 
         double GetPrice(void) {
             return *reinterpret_cast<uint64_t *>(&data[2]) / 10000.0;
         }
     };
+
+    explicit Packet(const std::string &input_filename) {
+        // read as binary file:
+        std::ifstream in(input_filename, std::ios::binary);
+        
+        // read header:
+        ReadPacketHeader(in);
+
+        // read data:
+        ReadPacketData(in);
+    }
+
+    ~Packet() { 
+        if ( nullptr != data_ ) delete [] data_; 
+    }
+
+    void WriteTrades(const std::string &output_filename) {
+        std::ofstream out(output_filename);
+
+        // read data segments:
+        SegmentHeader *segment_header = nullptr;
+        Trade *trade = nullptr;
+        size_t offset = 0;
+        for (uint16_t i = 0; i < header_.num_market_updates; ++i) {
+            // read segment header:
+            segment_header = ReadSegmentHeader(offset);
+            
+            switch ( segment_header->type ) {
+                case TYPE::QUOTE:
+                    break;
+                case TYPE::TRADE:
+                    // parse:
+                    trade = ReadSegmentTrade(offset + SegmentHeader::LENGTH);
+                    // write:
+                    WriteTrade(
+                        out, 
+                        trade->GetSize(), segment_header->symbol, trade->GetPrice()
+                    );
+                    break;
+                default:
+                    break;
+            }
+
+            offset += segment_header->length;
+        }
+
+        out.close();
+    }
+
+private:
+    PacketHeader header_;
+
+    char *data_ = nullptr;
 
     /**
      * @brief  parse data in network order
@@ -72,88 +129,121 @@ public:
         return out;
     }
 
-    static void ReadPacketHeader(std::ifstream &in, PacketHeader &header) {
-        in.read(reinterpret_cast<char *>(&header), sizeof(header));
-
-        header.length = ntoh<uint16_t>(header.length); 
-        header.num_market_updates = ntoh<uint16_t>(header.num_market_updates);   
+    static void WriteTrade(std::ofstream &out, const int size, const char symbol[], const double price) {
+        out << size << " " << symbol << " @ " 
+            << std::fixed << std::setprecision(2) << price
+            << std::endl;
     }
 
-    static void ReadSegmentHeader(std::ifstream &in, SegmentHeader &header) {
-        in.read(reinterpret_cast<char *>(&header), SegmentHeader::LENGTH);
+    /**
+     * @brief  parse packet header
+     * @param  in, input file stream
+     * @return void
+     */
+    void ReadPacketHeader(std::ifstream &in) {
+        in.read(reinterpret_cast<char *>(&header_), PacketHeader::LENGTH);
 
-        header.length = ntoh<uint16_t>(header.length);   
+        header_.length = ntoh<uint16_t>(header_.length); 
+        header_.num_market_updates = ntoh<uint16_t>(header_.num_market_updates);   
+    }
+
+    /**
+     * @brief  parse packet data
+     * @param  in, input file stream
+     * @return void
+     */
+    void ReadPacketData(std::ifstream &in) {
+        const size_t N = header_.length - PacketHeader::LENGTH;
+
+        data_ = new char[N];
+
+        in.read(reinterpret_cast<char *>(data_), N);
+    }
+
+    /**
+     * @brief  parse segment header
+     * @param  offset, data offset
+     * @return pointer to current segment header
+     */
+    SegmentHeader * ReadSegmentHeader(const size_t offset) {
+        SegmentHeader *header = reinterpret_cast<SegmentHeader *>(data_ + offset);
 
         // set string terminator:
         for (size_t i = 0; i < 6; ++i) {
-            if ( isspace(header.symbol[i]) ) {
-                header.symbol[i] = '\0';
+            if ( isspace(header->symbol[i]) ) {
+                header->symbol[i] = '\0';
                 break;
             }
         }
+
+        header->length = ntoh<uint16_t>(header->length);   
+
+        return header;
     }
 
-    static void ReadSegmentTrade(std::ifstream &in, Trade &segment) {
-        in.read(reinterpret_cast<char *>(&segment), Trade::LENGTH);
+    /**
+     * @brief  parse trade segment
+     * @param  offset, data offset
+     * @return pointer to current trade segment
+     */
+    Trade *ReadSegmentTrade(const size_t offset) {
+        Trade *trade = reinterpret_cast<Trade *>(data_ + offset);
 
-        *reinterpret_cast<uint16_t *>(&segment.data[0]) = ntoh<uint16_t>(
-            *reinterpret_cast<uint16_t *>(&segment.data[0])
+        *reinterpret_cast<uint16_t *>(&trade->data[0]) = ntoh<uint16_t>(
+            *reinterpret_cast<uint16_t *>(&trade->data[0])
         ); 
-        *reinterpret_cast<uint64_t *>(&segment.data[2]) = ntoh<uint64_t>(
-            *reinterpret_cast<uint64_t *>(&segment.data[2])
+        *reinterpret_cast<uint64_t *>(&trade->data[2]) = ntoh<uint64_t>(
+            *reinterpret_cast<uint64_t *>(&trade->data[2])
         );   
-    }
 
-    static void Parse(const std::string &input_filename, std::string output_filename) {
-        std::ifstream in(input_filename, std::ios::binary);
-        std::ofstream out(output_filename);
-
-        // read header, 1 read operation:
-        PacketHeader packet_header;
-        ReadPacketHeader(in, packet_header);
-
-        // read data segments:
-        SegmentHeader segment_header;
-        Trade trade;
-        size_t displacement = 0;
-        for (uint16_t i = 0; i < packet_header.num_market_updates; ++i) {
-            // read segment header, 1 read operation:
-            ReadSegmentHeader(in, segment_header);
-            
-            switch ( segment_header.type ) {
-                case TYPE::QUOTE:
-                    displacement = segment_header.length - 8 - sizeof(Quote);
-                    break;
-                case TYPE::TRADE:
-                    // parse:
-                    ReadSegmentTrade(in, trade);
-                    // write:
-                    out << 100 * trade.GetSize() << " " 
-                        << segment_header.symbol << " @ " 
-                        << std::fixed << std::setprecision(2) << trade.GetPrice()
-                        << std::endl;
-                    displacement = segment_header.length - 8 - sizeof(Trade);
-                    break;
-                default:
-                    break;
-            }
-
-            // move to next segment:
-            in.seekg(
-                displacement, std::ios::cur
-            );
-        }
-
-        out.close();
-        in.close();
+        return trade;
     }
 };
 
-int main() {
-    std::string input_filename("../data/rq_0001_parse_the_trades.dat");
-    std::string output_filename("trades.txt");
+namespace po = boost::program_options;
 
-    Packet::Parse(input_filename, output_filename);
+int main(int argc, char *argv[]) {
+    // parse command line options:
+    try
+    {   
+        // command line arguments:
+        po::options_description desc{"Parse trades out of market updates"};
+        desc.add_options()
+            ("help,h", "Show help info")
+            ("input,i", po::value<std::string>(), "Input market update")
+            ("output,o",  po::value<std::string>(), "Output trade records");
+        po::positional_options_description pos;
+
+        po::variables_map vm;
+        po::store(
+            po::command_line_parser(argc, argv).options(desc).positional(pos).run(), 
+            vm
+        );
+        po::notify(vm);
+
+        if (vm.count("help")) {
+            std::cout << desc << std::endl;
+        } else {
+            // parse arguments:
+            const std::string &input = vm["input"].as<std::string>();
+            const std::string &output = vm["output"].as<std::string>();
+
+            std::cout << "Command-Line Arguments:" << std::endl;
+            std::cout << "\tinput: " << input << std::endl;
+            std::cout << "\toutput: " << output << std::endl;
+
+            // load packet:
+            Packet packet(input);
+
+            // write trades
+            packet.WriteTrades(output);
+        }
+    }
+    catch (const boost::program_options::error &ex)
+    {
+        std::cerr << ex.what() << '\n';
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
