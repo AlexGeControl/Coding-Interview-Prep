@@ -213,6 +213,7 @@ int main(int argc, char *argv[]) {
             ("input,i", po::value<std::string>(), "Input market update")
             ("output,o",  po::value<std::string>(), "Output trade records");
         po::positional_options_description pos;
+        pos.add("input", 2);
 
         po::variables_map vm;
         po::store(
