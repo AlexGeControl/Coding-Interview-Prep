@@ -38,3 +38,7 @@ add_executable(lc_0017_subsets
 add_executable(lc_0015_permutations
   lc_0015_permutations.cpp
 )
+
+add_executable(lc_1848_word_search_iii
+  lc_1848_word_search_iii.cpp
+)
