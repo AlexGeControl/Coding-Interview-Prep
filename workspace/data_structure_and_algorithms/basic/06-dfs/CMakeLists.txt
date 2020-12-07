@@ -42,3 +42,7 @@ add_executable(lc_0015_permutations
 add_executable(lc_1848_word_search_iii
   lc_1848_word_search_iii.cpp
 )
+
+add_executable(lc_0132_word_search_ii
+  lc_0132_word_search_ii.cpp
+)
