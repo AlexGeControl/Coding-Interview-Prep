@@ -38,3 +38,7 @@ add_executable(lc_0004_ugly_number_ii
 add_executable(lc_0954_insert_delete_getrandom_o1_duplicates_allowed
   lc_0954_insert_delete_getrandom_o1_duplicates_allowed.cpp
 )
+
+add_executable(lc_0960_first_unique_number_in_data_stream_ii
+  lc_0960_first_unique_number_in_data_stream_ii.cpp
+)
