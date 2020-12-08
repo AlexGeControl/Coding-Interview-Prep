@@ -11,7 +11,6 @@ public:
     /*
     * @param capacity: An integer
     */LRUCache(int capacity) : N_(capacity) {
-        n_ = 0;
         time_ = 0;
         value_index_.clear();
         access_trace_.clear();
@@ -22,15 +21,17 @@ public:
      * @return: An integer
      */
     int get(int key) {
-        if ( value_index_.end() == value_index_.find(key) ) return NOT_FOUND;
-        
-        int value = value_index_.at(key).value;
-        
-        value_index_.at(key).stamp = ++time_;
+        // update timer:
+        ++time_;
 
-        // update access time tracker:
-        KeyStamped key_stamped(key, time_);
-        access_trace_.push_back(key_stamped);
+        if ( value_index_.end() == value_index_.find(key) ) return LRUCache::NOT_FOUND;
+
+        // update access trace:
+        access_trace_.emplace_back( time_, key );
+
+        // fetch value:
+        value_index_.at(key).timestamp_ = time_;
+        int value = value_index_.at(key).value_;
 
         return value;
     }
@@ -41,70 +42,91 @@ public:
      * @return: nothing
      */
     void set(int key, int value) {
+        // update timer:
         ++time_;
-        ValueStamped value_stamped(value, time_);
-        
-        if ( value_index_.end() == value_index_.find(key) ) {
-            if ( n_ < N_ ) {
-                ++n_;
-            } else {
-                while ( N_ == value_index_.size() ) {
-                    const KeyStamped &key_stamped = access_trace_.front();
 
-                    const int &key = key_stamped.key;
-                    const int &stamp = key_stamped.stamp;
-                    
-                    if ( value_index_.end() != value_index_.find(key) && stamp == value_index_.at(key).stamp ) {
-                        value_index_.erase(key);
-                        access_trace_.pop_front();
-                        break;
-                    }
-                    
-                    access_trace_.pop_front();
-                }
-            }
-            
-            value_index_[key] = value_stamped;
+        // update access trace:
+        access_trace_.emplace_back( time_, key );
+
+        if ( 
+            value_index_.end() != value_index_.find(key)
+        ) {
+            TimestampedValue &stamped_value = value_index_.at(key);
+
+            stamped_value.timestamp_ = time_;
+            stamped_value.value_ = value;
         } else {
-            value_index_.at(key) = value_stamped;
+            while ( 
+                value_index_.size() == N_ &&
+                !access_trace_.empty()
+            ) {
+                const TimestampedKey &stamped_key = access_trace_.front();
+
+                if (
+                    value_index_.end() != value_index_.find(stamped_key.key_) &&
+                    value_index_.at(stamped_key.key_).timestamp_ == stamped_key.timestamp_
+                ) {
+                    value_index_.erase(stamped_key.key_);
+                    break;
+                }
+
+                access_trace_.pop_front();
+            }
+
+            value_index_[key] = TimestampedValue(time_, value);
         }
-        
-        // update access time tracker:
-        KeyStamped key_stamped(key, time_);
-        access_trace_.push_back(key_stamped);
     }
 private:
-    struct KeyStamped {
-        int key;
-        int stamp;
-        
-        KeyStamped() : key(NOT_FOUND), stamp(NOT_FOUND) {}
-        KeyStamped(const int k, const int s) : key(k), stamp(s) {}
-    };
-    struct ValueStamped {
-        int value;
-        int stamp;
+    struct TimestampedKey {
+        int timestamp_;
+        int key_;
 
-        ValueStamped() : value(NOT_FOUND), stamp(NOT_FOUND) {}
-        ValueStamped(const int v, const int s) : value(v), stamp(s) {}
+        TimestampedKey() {}
+
+        TimestampedKey(
+            const int timestamp, const int key
+        ) : timestamp_(timestamp), key_(key) {}
+    };
+    struct TimestampedValue {
+        int timestamp_;
+        int value_;
+
+        TimestampedValue() {}
+
+        TimestampedValue(
+            const int timestamp, const int value
+        ) : timestamp_(timestamp), value_(value) {}
     };
 
+    // time:
     int time_;
-    
-    const int N_;
-    int n_;
-    
-    std::unordered_map<int, ValueStamped> value_index_;
-    std::deque<KeyStamped> access_trace_;
+
+    // capacity:
+    const size_t N_;
+
+    // a. value_index for latest value lookup:
+    std::unordered_map<int, TimestampedValue> value_index_;
+
+    // b. access_trace for LRU element remove:
+    std::deque<TimestampedKey> access_trace_;
 };
 
 int main() {
-    LRUCache lru_cache(1);
-    lru_cache.set(2, 1);
-    lru_cache.get(2);
-    lru_cache.set(3, 2);
-    lru_cache.get(2);
-    lru_cache.get(3);
+    LRUCache lru_cache1(1);
+    lru_cache1.set(2, 1);
+    std::cout << lru_cache1.get(2) << std::endl;
+    lru_cache1.set(3, 2);
+    std::cout << lru_cache1.get(2) << std::endl;
+    std::cout << lru_cache1.get(3) << std::endl;
+    std::cout << std::endl;
+
+    LRUCache lru_cache2(2);
+    lru_cache2.set(2, 1);
+    lru_cache2.set(1, 1);
+    std::cout << lru_cache2.get(2) << std::endl;
+    lru_cache2.set(4, 1);
+    std::cout << lru_cache2.get(1) << std::endl;
+    std::cout << lru_cache2.get(2) << std::endl;
 
     std::cout << "Hello, LRU Cache!" << std::endl;
     return EXIT_SUCCESS;
