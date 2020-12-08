@@ -19,8 +19,12 @@ add_executable(lc_0658_first_unique_number_in_data_stream
   lc_0658_first_unique_number_in_data_stream.cpp
 )
 
-add_executable(lc_0657_insert_delete_getrandom_o1
-  lc_0657_insert_delete_getrandom_o1.cpp
+add_executable(lc_0657_insert_delete_getrandom_amortized_o1
+  lc_0657_insert_delete_getrandom_amortized_o1.cpp
+)
+
+add_executable(lc_0657_insert_delete_getrandom_exact_o1
+  lc_0657_insert_delete_getrandom_exact_o1.cpp
 )
 
 add_executable(lc_0134_lru_cache
@@ -29,4 +33,8 @@ add_executable(lc_0134_lru_cache
 
 add_executable(lc_0004_ugly_number_ii
   lc_0004_ugly_number_ii.cpp
+)
+
+add_executable(lc_0954_insert_delete_getrandom_o1_duplicates_allowed
+  lc_0954_insert_delete_getrandom_o1_duplicates_allowed.cpp
 )
