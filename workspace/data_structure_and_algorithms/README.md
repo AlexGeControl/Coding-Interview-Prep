@@ -12,6 +12,6 @@
     * [Depth-First Search](basic/06-dfs/README.md)
     * [Common Data Structures](basic/07-common-data-structures/README.md)
     * [Mesmerized Search](basic/08-mesmerized-search/README.md)
-    * Dynamic Programming
+    * [Dynamic Programming](basic/09-dynamic-programming/README.md)
 * Advanced
     * Double Pointer
