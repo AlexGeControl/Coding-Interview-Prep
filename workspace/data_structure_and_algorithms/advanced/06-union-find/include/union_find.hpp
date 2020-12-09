@@ -3,6 +3,8 @@
 
 #include <unordered_map>
 
+#include <unordered_set>
+
 #include <stack>
 
 class UnionFind {
@@ -15,6 +17,8 @@ public:
     bool IsInside(const int id) const { return uf_tree_.end() != uf_tree_.find(id); }
 
     int GetNumComponents(void) const { return components_; }
+
+    int GetSize(const int id) const { return uf_tree_.at(id).size_; }
 
     void Insert(const int id) {
         if ( uf_tree_.end() == uf_tree_.find(id) ) {                
@@ -47,7 +51,7 @@ public:
 
         if ( root_id_x == root_id_y ) return;
 
-        if ( uf_tree_.at(root_id_x).size_ > uf_tree_.at(root_id_y).size_ ) {
+        if ( uf_tree_.at(root_id_x).size_ >= uf_tree_.at(root_id_y).size_ ) {
             uf_tree_.at(root_id_x).size_ += uf_tree_.at(root_id_y).size_;
             uf_tree_.at(root_id_y).parent_id_ = root_id_x;
         } else {

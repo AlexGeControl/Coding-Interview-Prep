@@ -14,3 +14,7 @@ add_definitions(-std=c++11)
 add_executable(lc_0434_number_of_islands_ii 
   lc_0434_number_of_islands_ii.cpp
 )
+
+add_executable(lc_1014_bricks_falling_when_hit
+  lc_1014_bricks_falling_when_hit.cpp
+)
