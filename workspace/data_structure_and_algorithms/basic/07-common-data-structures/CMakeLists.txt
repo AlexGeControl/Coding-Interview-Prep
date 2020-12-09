@@ -42,3 +42,27 @@ add_executable(lc_0954_insert_delete_getrandom_o1_duplicates_allowed
 add_executable(lc_0960_first_unique_number_in_data_stream_ii
   lc_0960_first_unique_number_in_data_stream_ii.cpp
 )
+
+add_executable(lc_0171_anagram
+  lc_0171_anagram.cpp
+)
+
+add_executable(lc_0124_longest_consecutive_sequence
+  lc_0124_longest_consecutive_sequence.cpp
+)
+
+add_executable(lc_0545_top_k_largest_numbers_ii
+  lc_0545_top_k_largest_numbers_ii.cpp
+)
+
+add_executable(lc_0544_top_k_largest_numbers
+  lc_0544_top_k_largest_numbers.cpp
+)
+
+add_executable(lc_0486_merge_k_sorted_arrays
+  lc_0486_merge_k_sorted_arrays.cpp
+)
+
+add_executable(lc_0612_k_closest_points
+  lc_0612_k_closest_points.cpp
+)
