@@ -34,7 +34,7 @@ public:
 
         std::vector<int> num_islands;
 
-        UnionFind union_find;
+        UnionFind<int> union_find;
         for (const Point &point: operators) {
             const int id = GetID(N, M, point.x, point.y);
 

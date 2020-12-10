@@ -11,7 +11,6 @@ class Solution {
 public:
     static const int BRICK = 1;
     static const int FREE = 0;
-    static const int WALL_ID = -1;
 
     /**
      * @param grid: a grid
@@ -33,6 +32,8 @@ public:
             { 0, +1}
         };
 
+        static const int WALL_ID = -1;
+
         std::vector<int> num_falls;
 
         if ( 0 < grid.size() && 0 < hits.size() ) {
@@ -52,7 +53,7 @@ public:
                 }
             }
 
-            UnionFind union_find;
+            UnionFind<int> union_find;
             union_find.Insert(WALL_ID);
             for (int n = 0; n < N; ++n) {
                 for (int m = 0; m < M; ++m) {
