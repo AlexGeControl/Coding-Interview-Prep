@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(trie)
+project(monotonic_sequence)
 
 ## Compile as C++11:
 SET(CMAKE_BUILD_TYPE "Release")
