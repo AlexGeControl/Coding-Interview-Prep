@@ -14,3 +14,7 @@ add_definitions(-std=c++11)
 add_executable(lc_0442_implement_trie_prefix_tree 
   lc_0442_implement_trie_prefix_tree.cpp
 )
+
+add_executable(lc_1624_max_distance
+  lc_1624_max_distance.cpp
+)
