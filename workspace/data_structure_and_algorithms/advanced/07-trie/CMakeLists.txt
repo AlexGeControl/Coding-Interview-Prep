@@ -11,22 +11,6 @@ add_definitions(-std=c++11)
 ## Build ##
 ###########
 
-add_executable(lc_0434_number_of_islands_ii 
-  lc_0434_number_of_islands_ii.cpp
-)
-
-add_executable(lc_1014_bricks_falling_when_hit
-  lc_1014_bricks_falling_when_hit.cpp
-)
-
-add_executable(lc_0805_maximum_association_set
-  lc_0805_maximum_association_set.cpp
-)
-
-add_executable(lc_1463_paper_review
-  lc_1463_paper_review.cpp
-)
-
-add_executable(lc_1179_friend_circles
-  lc_1179_friend_circles.cpp
+add_executable(lc_0442_implement_trie_prefix_tree 
+  lc_0442_implement_trie_prefix_tree.cpp
 )

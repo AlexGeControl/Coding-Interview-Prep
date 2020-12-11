@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 
+#include "include/trie.hpp"
+
 #include "include/union_find.hpp"
 
 #include <vector>
@@ -84,27 +86,6 @@ public:
         return similarity;
     }
 private:
-    class WordEncoder {
-    public:
-        static const int NOT_FOUND = -1;
-
-        WordEncoder() { encoder_.clear(); }
-
-        void Insert(const std::string &word) {
-            if ( encoder_.end() == encoder_.find(word) ) {
-                encoder_[word] = encoder_.size();
-            } 
-        }
-
-        int GetID(const std::string &word) {
-            if ( encoder_.end() == encoder_.find(word) ) return NOT_FOUND;
-
-            return encoder_.at(word);
-        }
-    private:
-        std::unordered_map<std::string, int> encoder_;
-    };
-
     static void EncodeWords(
         const std::vector<std::string> &words1, 
         const std::vector<std::string> &words2, 
@@ -113,20 +94,16 @@ private:
         std::vector<int> &wordsIdx2,
         std::vector<std::pair<int, int>> &pairsIdx
     ) {
-        WordEncoder word_encoder;
+        Trie trie;
 
         wordsIdx1.clear();
         for (const std::string &word: words1) {
-            word_encoder.Insert(word);
-
-            wordsIdx1.push_back(word_encoder.GetID(word));
+            wordsIdx1.push_back(trie.insert(word));
         }
 
         wordsIdx2.clear();
         for (const std::string &word: words2) {
-            word_encoder.Insert(word);
-
-            wordsIdx2.push_back(word_encoder.GetID(word));
+            wordsIdx2.push_back(trie.insert(word));
         }
 
         pairsIdx.clear();
@@ -134,13 +111,10 @@ private:
             const std::string &word_x = word_pair.at(0);
             const std::string &word_y = word_pair.at(1);
 
-            word_encoder.Insert(word_x);
-            word_encoder.Insert(word_y);
-
             pairsIdx.emplace_back( 
                 std::pair<int, int>(
-                    word_encoder.GetID(word_x), 
-                    word_encoder.GetID(word_y)
+                    trie.insert(word_x), 
+                    trie.insert(word_y)
                 ) 
             );
         }
