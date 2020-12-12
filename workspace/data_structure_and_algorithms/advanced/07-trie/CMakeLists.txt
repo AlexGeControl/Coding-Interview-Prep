@@ -22,3 +22,7 @@ add_executable(lc_1624_max_distance
 add_executable(lc_0634_word_squares
   lc_0634_word_squares.cpp
 )
+
+add_executable(lc_0623_k_edit_distance
+  lc_0623_k_edit_distance.cpp
+)
