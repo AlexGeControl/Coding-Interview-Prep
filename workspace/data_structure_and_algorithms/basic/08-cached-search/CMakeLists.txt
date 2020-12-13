@@ -30,3 +30,7 @@ add_executable(lc_0683_word_break_iii
 add_executable(lc_0582_word_break_ii
   lc_0582_word_break_ii.cpp
 )
+
+add_executable(lc_0192_wildcard_matching
+  lc_0192_wildcard_matching.cpp
+)
