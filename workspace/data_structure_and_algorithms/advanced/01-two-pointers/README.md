@@ -1,4 +1,4 @@
-# Mesmerized Search
+# Two Pointers
 
 ---
 
@@ -10,4 +10,6 @@ TBD
 
 ## To-Be Finished
 
-TBD
+lc_1396
+
+lc_1070

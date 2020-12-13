@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(mesmerized_search)
+project(cached_search)
 
 ## Compile as C++11:
 SET(CMAKE_BUILD_TYPE "Release")

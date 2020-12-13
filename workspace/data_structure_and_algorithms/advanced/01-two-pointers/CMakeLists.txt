@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(double_pointer)
+project(two_pointers)
 
 ## Compile as C++11:
 SET(CMAKE_BUILD_TYPE "Release")
