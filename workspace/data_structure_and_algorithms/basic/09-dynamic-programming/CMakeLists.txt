@@ -14,3 +14,7 @@ add_definitions(-std=c++11)
 add_executable(lc_0119_edit_distance 
   lc_0119_edit_distance.cpp
 )
+
+add_executable(lc_0366_fibonacci
+  lc_0366_fibonacci.cpp
+)
