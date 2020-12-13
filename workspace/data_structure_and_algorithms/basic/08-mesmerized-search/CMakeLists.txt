@@ -22,3 +22,11 @@ add_executable(lc_0111_climbing_stairs
 add_executable(lc_0272_climbing_stairs_ii
   lc_0272_climbing_stairs_ii.cpp
 )
+
+add_executable(lc_0683_word_break_iii
+  lc_0683_word_break_iii.cpp
+)
+
+add_executable(lc_0582_word_break_ii
+  lc_0582_word_break_ii.cpp
+)
