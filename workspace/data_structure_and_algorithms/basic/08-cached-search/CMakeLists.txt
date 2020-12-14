@@ -34,3 +34,7 @@ add_executable(lc_0582_word_break_ii
 add_executable(lc_0192_wildcard_matching
   lc_0192_wildcard_matching.cpp
 )
+
+add_executable(lc_0154_regular_expression_matching
+  lc_0154_regular_expression_matching.cpp
+)
